@@ -1,0 +1,152 @@
+.App {
+  text-align: center;
+}
+
+.login {
+  position: relative;
+}
+@import url(//db.onlinewebfonts.com/c/9ae5e19516bc6428f1327ff3311b2617?family=DINNextW01-Light);
+@font-face {font-family: "DIN-Light"; src: url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.eot"); src: url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.woff") format("woff"), url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.svg#DINNextW01-Light") format("svg"); }
+ 
+
+.headings {
+  font-family: DIN-Light;
+}
+
+.logUN {
+  position: relative;
+  border: none;
+  border-bottom: 2px solid black;
+  font-family: DIN-Light;
+
+}
+
+.logP {
+  position: relative;
+  display: block;
+  margin:0 auto;
+  border: none;
+  border-bottom: 2px solid black;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-family: DIN-Light;
+  
+}
+.regi {
+  position: relative;
+  
+
+}
+
+.regiUN {
+  position: relative;
+  border: none;
+  border-bottom: 2px solid black;
+  margin-top: 1rem;
+  font-family: DIN-Light;
+  
+
+}
+
+.regiP {
+  position: relative;
+  display: block;
+  margin:0 auto;
+  border: none;
+  border-bottom: 2px solid black;
+  margin-top: 1rem;
+  font-family: DIN-Light;
+  
+}
+
+.conRegiP {
+  position: relative;
+  display: block;
+  margin:0 auto;
+  border: none;
+  border-bottom: 2px solid black;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-family: DIN-Light;
+  
+}
+
+.regiEmail {
+  position: relative;
+  display: block;
+  margin:0 auto;
+  border: none;
+  border-bottom: 2px solid black;
+  margin-top: 1rem;
+  font-family: DIN-Light;
+  
+}
+
+.normal-text {
+  font-family: DIN-Light;
+  text-align: center;
+  position: relative;
+}
+.text-success{
+  color: green;
+  font-family: DIN-Light;
+  text-align: center;
+  position: relative;
+}
+
+.text-failure{
+  color: red;
+  font-family: DIN-Light;
+  text-align: center;
+  position: relative;
+}
+
+.text-dark{
+  font-family: DIN-Light;
+  text-align: center;
+  position: relative;
+}
+
+.text-muted{
+  list-style-type: none;
+
+}
+
+
+
+.button {
+  background-color: black; 
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-family: DIN-Light;
+}
+
+
+
+
+
+.button2 {
+  
+  border: none;
+  background-image: url(upA.png);
+  margin-top: 1rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  font-family: DIN-Light;
+}
+
+.button2:hover {
+  background: lightgray;
+}
+
+.up {
+  width: 1rem;
+}
+

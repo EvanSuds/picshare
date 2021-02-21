@@ -1,0 +1,104 @@
+@import url(//db.onlinewebfonts.com/c/9ae5e19516bc6428f1327ff3311b2617?family=DINNextW01-Light);
+@font-face {font-family: "DIN-Light"; src: url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.eot"); src: url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.woff") format("woff"), url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.svg#DINNextW01-Light") format("svg"); }
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#testid {
+ /* border-style: dashed;
+border-color: pink;
+*/
+max-width: 70%;
+padding: 2rem;
+margin-top: 4rem;
+}
+
+.col {
+  
+  padding: 5rem;
+
+}
+#newsfeedid {
+  max-width: 100%;
+  padding-left: 10rem;
+  padding-right: 10rem;
+  padding-top: 0rem;
+  /* border-style: dashed;
+  border-color: rgb(67, 207, 12);
+  */
+  margin-top: 1rem;
+}
+
+.userInfo {
+  color:black;
+  font-family: DIN-light;
+  font-size: 16px;
+  text-align: left;
+  text-indent: 20px;
+  width: 780px;
+  height:700px;
+  margin: 0 auto;
+}
+.square {
+  position: relative;
+  background-image: url("https://tomaszjanickiphoto.co.uk/wp-content/gallery/scotland/DSC_8286.jpg");
+  text-indent: 0px;
+  color: white;
+  width: 780px;
+  height: 200px;
+}
+
+.square > span {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  font-size: 25px;
+
+}
+
+.blackBar {
+  font-family: DIN-light;
+  text-align: center;
+}
+
+hr.solid {
+  border-top: 4px solid black;
+}
+
+hr.solid2 {
+  border-top: 1px solid #bbb;
+}
+
+.form {
+  display: table;
+
+}
+.form-entry {
+  display: table-cell;
+  padding-left: 20px;
+  text-align: left;
+
+}
+.button {
+  color:white;
+  font-family: DIN-light;
+  font-size: 16px;
+  margin: 20px;
+  background-color: #384ad3;
+  padding: 8px 150px;
+}
+img {
+  border-radius: 50%;
+}
