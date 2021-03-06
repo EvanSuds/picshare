@@ -7,7 +7,7 @@
 }
 @import url(//db.onlinewebfonts.com/c/9ae5e19516bc6428f1327ff3311b2617?family=DINNextW01-Light);
 @font-face {font-family: "DIN-Light"; src: url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.eot"); src: url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.woff") format("woff"), url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/9ae5e19516bc6428f1327ff3311b2617.svg#DINNextW01-Light") format("svg"); }
- 
+
 
 .headings {
   font-family: DIN-Light;
@@ -30,11 +30,11 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
   font-family: DIN-Light;
-  
+
 }
 .regi {
   position: relative;
-  
+
 
 }
 
@@ -44,7 +44,7 @@
   border-bottom: 2px solid black;
   margin-top: 1rem;
   font-family: DIN-Light;
-  
+
 
 }
 
@@ -56,7 +56,7 @@
   border-bottom: 2px solid black;
   margin-top: 1rem;
   font-family: DIN-Light;
-  
+
 }
 
 .conRegiP {
@@ -68,7 +68,7 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
   font-family: DIN-Light;
-  
+
 }
 
 .regiEmail {
@@ -79,7 +79,7 @@
   border-bottom: 2px solid black;
   margin-top: 1rem;
   font-family: DIN-Light;
-  
+
 }
 
 .normal-text {
@@ -115,7 +115,7 @@
 
 
 .button {
-  background-color: black; 
+  background-color: black;
   border: none;
   color: white;
   padding: 15px 32px;
@@ -124,6 +124,7 @@
   display: inline-block;
   font-size: 16px;
   font-family: DIN-Light;
+  cursor:pointer;
 }
 
 
@@ -131,7 +132,7 @@
 
 
 .button2 {
-  
+
   border: none;
   background-image: url(upA.png);
   margin-top: 1rem;
@@ -149,4 +150,3 @@
 .up {
   width: 1rem;
 }
-

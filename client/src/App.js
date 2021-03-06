@@ -16,32 +16,32 @@ import up from "./upA.png"
 
 function App(props) {
 
-  
-  
+
+
   const history = useHistory();
-  
+
   const redirect = (path) => {
-    
+
     history.push(path);
   };
-  
-  
+
+
   //username for registration
   const [UsernameReg, setUsernameReg] = useState('');
 
   //username for registration
   const [EmailReg, setEmailReg] = useState('');
 
-  //password for registration 
+  //password for registration
   const [PasswordReg, setPasswordReg] = useState('');
 
-  //confirm password for registration 
+  //confirm password for registration
   const [ConPasswordReg, setConPasswordReg] = useState('');
 
   //username for login
   const [UsernameEmail, setUsernameEmail] = useState('');
 
-  //password for login 
+  //password for login
   const [Password, setPassword] = useState('');
 
   const [passwordFocus, setPasswordFocus] = useState(false);
@@ -53,14 +53,14 @@ function App(props) {
     illegalChar: null
   });
 
-//checks if a user is logged in 
+//checks if a user is logged in
   const [isLoggedIn, setisLoggedIn] = useState(false);
 
-  //checks if a user is logged in 
+  //checks if a user is logged in
   const [isRegi, setisRegi] = useState(false);
-  
 
-  //status of the feedback header at the bottom of the page 
+
+  //status of the feedback header at the bottom of the page
   const [status, setStatus] = useState('');
 
 
@@ -83,56 +83,56 @@ function App(props) {
       minlength: password.length >= 8 ? true : false,
       number: isNumber.test(password) ? true : false,
       specialChar: specialCharacterRegx.test(password) ? true : false,
-      illegalChar: illegalCharacterRegx.test(password) ? false : true 
+      illegalChar: illegalCharacterRegx.test(password) ? false : true
     })
   }
 
- 
-  
-  
-  // register post method 
+
+
+
+  // register post method
   function register(){
-    
+
 
     if(passwordValid.illegalChar === true && passwordValid.minlength === true && passwordValid.specialChar === true && passwordValid.number === true) {
       if(PasswordReg === ConPasswordReg){
-        
+
         Axios.post('http://localhost:3001/register', {
         username: UsernameReg,
         password: PasswordReg,
         email: EmailReg
-  
+
         }).then((response) => {
           console.log("this is regi response " +response)
           if(response.data.message){
             setStatus(response.data.message)
           }
-          
-        
 
-        
+
+
+
         });
         setisRegi(true);
         setStatus("You have registered!");
-        
-        
-        
-        
+
+
+
+
       }
       else{
         setStatus("Passwords do not match");
       }
-      
+
     }
     else {
       setStatus("Password is invalid");
     }
   };
 
-  
-  // login post method 
+
+  // login post method
   const login = () => {
-    
+
     Axios.post('http://localhost:3001/login', {
       usernameEmail: UsernameEmail,
       password: Password,
@@ -151,21 +151,21 @@ function App(props) {
       }else {
         setStatus("Please enter a username and password");
       }
-      
-      
-     
-      
-      
-      
+
+
+
+
+
+
     }
   });
   };
 
 
 
-// login post method 
+// login post method
 const refresh = ()=>{
-  
+
   Axios.post('http://localhost:3001/refresh', {
 
 
@@ -175,9 +175,9 @@ const refresh = ()=>{
 };
 
 
-// login post method 
+// login post method
 const update = () => {
-  
+
   Axios.post('http://localhost:3001/updateTable', {
 
 
@@ -187,7 +187,7 @@ const update = () => {
 };
 
 
- // login post method 
+ // login post method
  const loginRegi =  ()=>{
   Axios.post('http://localhost:3001/login', {
     usernameEmail: UsernameReg,
@@ -223,16 +223,16 @@ useEffect( ()=> {
       //console.log(response);
       //setStatus(response.data.user[0].Username);
       setisLoggedIn(true);
-      
+
     }
-    
+
     });
   }, []);
 
-  
+
  return (
 
-  
+
   <div className="App">
     <div className="regi">
 
@@ -246,7 +246,7 @@ useEffect( ()=> {
       }}/>
       {/*input for registration password */}
       <input className="regiP" type="text" onFocus={ () => setPasswordFocus(true)} onBlur={ () => setPasswordFocus(false)} placeholder="Password" onChange={(e) => {
-        
+
         setPasswordReg(e.target.value);
         checkValidity(e.target.value);
       }} />
@@ -259,7 +259,7 @@ useEffect( ()=> {
       {passwordFocus? <PasswordStrength validity={passwordValid}/>:null}
 
       {/* register button that calls register function */}
-      <Button className="button" onClick={(e) => { 
+      <Button className="button" onClick={(e) => {
         register()
       }}>Sign up</Button>
       {//reveal status below regi form
@@ -272,18 +272,18 @@ useEffect( ()=> {
     </div>
     <br></br>
     {/*button for toggling open registration div */}
-    
+
     { //reveal login form
       !show?
     //button for toggling open registration div
-    
+
     <Button className="button2" onClick={()=> {
       setShow(!show)
       setStatus("")
-    }}> 
+    }}>
     Already a member? login </Button>:null
     }
-    { 
+    {
       show?<div className="login">
 
       <h1 className="headings">Login</h1>
@@ -302,17 +302,17 @@ useEffect( ()=> {
         setStatus("")}
         }> <img className="up" alt="hide" src={up} /> </Button>
 
-      
-     
-      
 
 
-    
+
+
+
+
 
 </div>:null
   }
    {/* header for feedback of login or registration status */}
-   
+
   { // reveal status below login form
   show?
     <h2 className="headings">{status}</h2>:null
@@ -323,8 +323,7 @@ useEffect( ()=> {
  );
 
 
-   
+
 }
 
 export default App;
-

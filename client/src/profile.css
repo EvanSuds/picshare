@@ -13,6 +13,15 @@
   margin: 3rem auto;
 }
 
+.userImage {
+  margin-right:5px;
+}
+
+.userImage:hover {
+  margin-right:5px;
+  content: url('https://cdn3.iconfinder.com/data/icons/buttons/512/Icon_16-512.png');
+}
+
 .app {
   position: fixed;
 }
@@ -61,6 +70,14 @@ hr.solid2 {
   font-size: 16px;
   margin: 1.25em;
   background-color: #384ad3;
+  padding: 0.5em 9.375em;
+}
+.deletebutton {
+  color:white;
+  font-family: DIN-light;
+  font-size: 16px;
+  margin: 1.25em;
+  background-color: red;
   padding: 0.5em 9.375em;
 }
 img {

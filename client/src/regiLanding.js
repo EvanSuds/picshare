@@ -23,17 +23,17 @@ function RegiLanding() {
   Axios.defaults.withCredentials = true;
 
 
-    const interests = ["Animals", "Architecture", "Adventure", "Games", "Sightseeing", "Zoo", "Call of Duty", "Valorant", "Dota", "Edinburgh", "Scotland", "Outdoors", 
+    const interests = ["Animals", "Architecture", "Adventure", "Games", "Sightseeing", "Zoo", "Call of Duty", "Valorant", "Dota", "Edinburgh", "Scotland", "Outdoors",
     "Photography", "Cats", "Dogs", "Glasgow", "Heriot Watt" ]
 
     const history = useHistory();
 
     const redirect = (path) => {
-    
+
         history.push(path);
       };
 
-    const filteredInterest = 
+    const filteredInterest =
         interests.filter(interest => {
         return interest.toLowerCase().includes(searchTerm);
     })
@@ -41,19 +41,19 @@ function RegiLanding() {
 
 
     function addtoPicked(props) {
-        setPicked([ ... pickedInterests, 
+        setPicked([ ... pickedInterests,
             props
         ])
-    } 
+    }
 
 
-    
-    
+
+
     const removePicked = (props) => {
         setPicked(pickedInterests.filter(item => {
             return item !== props
         }))
-       
+
     }
 
     function checkDisplayName(){
@@ -61,7 +61,7 @@ function RegiLanding() {
         setFstname(name.splice(0, 1))
         var sndnames = name.join(" ")
         setSndname(sndnames)
-        
+
     }
 
     function checkAgreement() {
@@ -80,22 +80,22 @@ function RegiLanding() {
             } else {
                 setFeedbackStatus("You must pick at least 3 interests");
             }
-            
+
         } else{
             setFeedbackStatus("You must agree to terms and conditions to continue");
-            
+
         }
     }
 
 
-    const printInterest = filteredInterest.map((item) => 
+    const printInterest = filteredInterest.map((item) =>
      <li className="searchItemsList" > <Button className="searchItems" key={item.name} onClick={() => {addtoPicked(item)}} > + {item}</Button> </li>
-        
+
     );
 
-    const printPickedInterest = pickedInterests.map((item) => 
+    const printPickedInterest = pickedInterests.map((item) =>
      <Button className="searchItems" key={item.name} onClick={() => {removePicked(item)}} > - {item}</Button>
-        
+
     );
 
     const setdetails = () => {
@@ -104,7 +104,7 @@ function RegiLanding() {
             secondName: sndname,
             description: description,
             username: user
-            
+
 
         }).then((response) => {
             if(response.data.message){
@@ -118,7 +118,7 @@ function RegiLanding() {
         Axios.post('http://localhost:3001/setInterest', {
             interests: pickedInterests,
             username: user
-            
+
 
         }).then((response) => {
             if(response.data.message){
@@ -132,18 +132,18 @@ function RegiLanding() {
 useEffect( ()=> {
     Axios.get('http://localhost:3001/checklogin').then((response)=> {
     if(response.data.loggedIn === true){
-      setUser(response.data.user[0].Username)
+      setUser(response.data.user[0].username)
       //setStatus(response.data.user[0].Username);
       //setisLoggedIn(true);
-    
-      
+
+
     }
-    
+
     });
   }, []);
 
 
-    
+
     return (
         <div className="regiLanding">
             <div className="basic">
@@ -158,9 +158,9 @@ useEffect( ()=> {
                 }}/>
             </div>
 
-            
-            
-            
+
+
+
 
             <div className="interests">
                 <h1 className="headings">Pick your interests</h1>
@@ -169,14 +169,14 @@ useEffect( ()=> {
                 }}/>
 
                 <div className="returnedInterest">
-                        
+
                         {(searchTerm !== "")?  <ul className="searchList">{printInterest}</ul>:null}
-                        
+
                         {printPickedInterest}
 
-                        
-       
-  
+
+
+
                 </div>
 
             </div>

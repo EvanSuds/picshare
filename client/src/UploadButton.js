@@ -11,14 +11,14 @@ const styles = theme => ({
   btnc: {
     borderStyle: 'dashed',
     borderColor: 'red',
-  
+
   }
 });
 
 class UploadButton extends React.Component {
 
     constructor(props){
-      
+
         super(props);
         this.handleChange = this.handleChange.bind(this);
     }
@@ -46,6 +46,6 @@ class UploadButton extends React.Component {
             </div>
           );
     }
-  
+
 }
 export default withStyles(styles, { withTheme: true })(UploadButton);

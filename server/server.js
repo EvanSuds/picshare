@@ -39,14 +39,21 @@ app.use(session({
 const db = mysql.createConnection({
     user: "root",
     host: "localhost",
-    password: "TNTman222",
-    database: "Users"
+    password: "f29so",
+    database: "profile"
 
+});
+
+db.connect((err) => {
+  if(err){
+    console.log(err);
+  }
+  console.log('MySQL Connected');
 });
 
 {/*register method*/}
 app.post('/register', (req, res)=>{
-    
+
     const username = req.body.username
     const password = req.body.password
     const email = req.body.email
@@ -54,53 +61,47 @@ app.post('/register', (req, res)=>{
     bcrypt.hash(password, saltRounds, (err, hash) => {
         if(err !== null){
             console.log(err);
-            
+
         }
         if(email === ""){
-            db.query("INSERT INTO Users.userDetails (username, password) VALUES (?,?)", 
-            [username, hash], 
+            db.query("INSERT INTO profile.userDetails (username, password) VALUES (?,?)",
+            [username, hash],
             (err, result)=>{
                 if(err !== null){
                     if(err.errno === 1062){
-                        
                         res.send({message: "Duplicate user"});
                     }
                 }
                 else{
                     req.session.user = result;
                 }
-                
-
-            
-        
             });
         } else {
-            db.query("INSERT INTO Users.userDetails (username, password, email) VALUES (?,?,?)", 
-            [username, hash, email], 
+            db.query("INSERT INTO profile.userDetails (username, password, email) VALUES (?,?,?)",
+            [username, hash, email],
             (err, result)=>{
                 if(err !== null){
                     if(err.errno === 1062){
-                        console.log("we here");
                         res.send({message: "Duplicate user"});
                     }
                 }
                 else{
                     req.session.user = result;
                 }
-                
-         
-    
+
+
+
         });
         }
-        
-        
+
+
 
     })
-    
+
 });
 
 {/*checked if logged in method*/}
-app.get('/checklogin', (req, res) => { 
+app.get('/checklogin', (req, res) => {
     if(req.session.user){
         res.send({loggedIn: true, user: req.session.user})
     }
@@ -110,7 +111,7 @@ app.get('/checklogin', (req, res) => {
 })
 
 app.post('/updateTable', (req, res) =>{
-    db.query("SELECT * FROM Users.userDetails", (err, result) => {
+    db.query("SELECT * FROM profile.userDetails", (err, result) => {
         //console.log(result)
         console.log("update err" + err)
         res.send(result);
@@ -120,7 +121,7 @@ app.post('/updateTable', (req, res) =>{
 
 
 app.post('/refresh', (req, res) =>{
-    db.query("SELECT * FROM Users.userDetails ORDER BY userID DESC LIMIT 1", (err, result) => {
+    db.query("SELECT * FROM profile.userdetails ORDER BY userID DESC LIMIT 1", (err, result) => {
         console.log(result)
         console.log("refresh err" + err)
         res.send(result);
@@ -133,25 +134,21 @@ app.post('/login', (req, res) => {
     const usernameEmail = req.body.usernameEmail
     const password = req.body.password
 
-
-    db.query("SELECT * FROM Users.userDetails WHERE username =? OR email =?", [usernameEmail, usernameEmail], 
+    db.query("SELECT * FROM profile.userdetails WHERE username =? OR email =?", [usernameEmail, usernameEmail],
     (err, result)=>{
         if(err) {
             console.log(err);
         }
         else if(result.length >0) {
-            
 
-            bcrypt.compare(password, result[0].Password, (err, response)=>{
+            bcrypt.compare(password, result[0].password, (err, response)=>{
                 if(response){
                     req.session.user = result;
                     res.send(result);
-                    
-                    
-                    
                 }
                 else {
                     res.send({message: "The password is incorrect"})
+                    console.log(err);
                 }
             });
         }
@@ -160,7 +157,7 @@ app.post('/login', (req, res) => {
             console.log("login result " + result)
             res.send({message: "This user doesnt exist"})
         }
-        
+
 
     });
 });
@@ -171,25 +168,25 @@ app.post('/setDetails', (req, res) => {
     const secondName = req.body.secondName
     const description = req.body.description
     const username = req.body.username
-    
 
-    db.query("INSERT INTO Users.profile (username, fname, lname, description) VALUES (?,?,?,?)", [username, firstName, secondName, description], 
+
+    db.query("INSERT INTO profile.profileinfo (username, fname, lname, description) VALUES (?,?,?,?)", [username, firstName, secondName, description],
     (err, result)=>{
         if(err) {
             console.log("setdetails error " +err);
         }
         //res.send(result);
-                    
-                   
+
+
         res.send({message: "changed details"})
-         
-        
-       
+
+
+
         console.log("details error " + err)
         console.log("details result " + result)
         //res.send({message: "This user doesnt exist"})
-        
-        
+
+
 
     });
 });
@@ -198,25 +195,25 @@ app.post('/posts', (req, res) => {
     const username = req.body.username
     const description = req.body.description
     const img = req.body.img
-    
 
-    db.query("INSERT INTO Users.Posts (username, Image, PostDescription) VALUES (?,?,?)", [username, img, description], 
+
+    db.query("INSERT INTO profile.Posts (Username, Image, PostDes) VALUES (?,?,?)", [username, img, description],
     (err, result)=>{
         if(err) {
             console.log("setdetails error " +err);
         }
         //res.send(result);
-                    
-                   
+
+
         res.send(result)
-         
-        
-       
+
+
+
         console.log("posts error " + err)
         console.log(result)
         //res.send({message: "This user doesnt exist"})
-        
-        
+
+
 
     });
 });
@@ -225,24 +222,25 @@ app.post('/posts', (req, res) => {
 app.post('/tags', (req, res) => {
     const tags = req.body.tags
     const id = req.body.id
-    
+
     tags.forEach(element =>
-        db.query("INSERT INTO Users.Interests (InterestsName) VALUES (?)", [element], 
+        db.query("INSERT INTO profile.interests (interestName) VALUES (?)", [element],
         (err, result)=>{
             if(err) {
+                console.log(id);
                 console.log("tags error " +err);
             }
-            
-            db.query("INSERT INTO Users.PostTags (InterestID, PostID) VALUES ((SELECT InterestID FROM Users.Interests WHERE InterestsName=?), (SELECT PostID FROM Users.Posts WHERE PostID=?))", [element, id], 
+
+            db.query("INSERT INTO profile.posttags (InterestID, PostID) VALUES ((SELECT InterestID FROM profile.interests WHERE interestName=?), (SELECT PostID FROM profile.posts WHERE PostID=?))", [element, id],
             (err, result)=>{
                 if(err) {
                     console.log("tags1 error " +err);
                 }
                 console.log(result)
                 })
-            
-        
-            
+
+
+
             console.log(result)
         })
     )
@@ -251,26 +249,27 @@ app.post('/tags', (req, res) => {
 app.post('/setInterest', (req, res) => {
     const interests = req.body.interests
     const username = req.body.username
-    
+
     for(i = 0; i < interests.length; i++){
-    
-        db.query("INSERT INTO Users.userInterests (InterestID, UserID) VALUES ((SELECT InterestID FROM Users.Interests WHERE InterestsName=?),(SELECT userID FROM Users.userDetails WHERE Username=?));", [interests[i], username], 
+      console.log(interests[i]);
+      console.log(username);
+        db.query("INSERT INTO profile.userinterests (InterestID, UserID) VALUES ((SELECT InterestID FROM profile.Interests WHERE interestName=?),(SELECT userID FROM profile.userdetails WHERE username=?));", [interests[i], username],
         (err, result)=>{
             if(err) {
                 console.log("setinterest error " +err);
             }
             //res.send(result);
-                        
-              
+
+
             //res.send({message: "changed interest"})
-            
-            
-        
+
+
+
             console.log("interest error " + err)
             console.log("interest result " + result)
             //res.send({message: "This user doesnt exist"})
-            
-            
+
+
 
         });
     }
@@ -279,25 +278,40 @@ app.post('/setInterest', (req, res) => {
 
 app.post('/users', (req, res) => {
     const username = req.body.username
-    //console.log(username)
-    db.query("SELECT * FROM profile WHERE username =?;", [username], (err, results) => {
+    db.query("SELECT * FROM profile.profileinfo WHERE username =?;", [username], (err, results) => {
       if(err){
           console.log("profile err " + err)
       }
-      //console.log(results)
       res.send(results);
     });
   });
-  
+
   app.post('/update',(req,res) => {
     const username = req.body.username
     const fname = req.body.fname
     const lname = req.body.lname
     const comm_email = req.body.commEmail
-    db.query("UPDATE profile SET fname = ?, lname = ?, comm_email = ? WHERE username = ?", [fname,lname,comm_email,username], (err, result) =>{
+    db.query("UPDATE profile.profileinfo SET fname = ?, lname = ?, comm_email = ? WHERE username = ?", [fname,lname,comm_email,username], (err, result) =>{
       if (err) throw err;
       res.send(result);
       });
+  });
+
+  app.post('/myposts',(req,res) => {
+    const username = req.body.username
+    db.query("SELECT * FROM profile.posts WHERE Username=? ORDER BY PostID DESC", [username], (err, result) =>{
+      if (err) throw err;
+      res.send(result);
+      });
+  });
+
+  app.post('/deletepost',(req,res) => {
+    const postID = req.body.postid
+    db.query("DELETE FROM profile.posts WHERE PostID=?",[postID],(err,result) => {
+      if (err) throw err;
+      console.log(result);
+      res.send(result);
+    });
   });
 
 {/*log server is running*/}
