@@ -26,7 +26,7 @@ margin-top: 4rem;
 }
 
 .col {
-  
+
   padding: 5rem;
 
 }
@@ -41,22 +41,18 @@ margin-top: 4rem;
   margin-top: 1rem;
 }
 
-.userInfo {
-  color:black;
-  font-family: DIN-light;
-  font-size: 16px;
-  text-align: left;
-  text-indent: 20px;
-  width: 780px;
-  height:700px;
-  margin: 0 auto;
+.profilePage {
+  padding-left: 30%;
+  padding-right:30%;
+  font-family: DIN-Light;
 }
+
 .square {
   position: relative;
   background-image: url("https://tomaszjanickiphoto.co.uk/wp-content/gallery/scotland/DSC_8286.jpg");
   text-indent: 0px;
   color: white;
-  width: 780px;
+  width: 1050px;
   height: 200px;
 }
 
@@ -68,37 +64,111 @@ margin-top: 4rem;
 
 }
 
-.blackBar {
-  font-family: DIN-light;
-  text-align: center;
-}
-
-hr.solid {
-  border-top: 4px solid black;
-}
-
 hr.solid2 {
-  border-top: 1px solid #bbb;
+  border-top: 2px solid #bbb;
 }
 
-.form {
+input[type=text], select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+.submitbutton {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+.submitbutton:hover {
+  background-color: #45a049;
+}
+
+
+.form-entry, .submitbutton {
+    width: 100%;
+    margin-top: 0;
+  }
+
+.row-label {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.row-field {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+.form-entry:after {
+  content: "";
   display: table;
+  clear: both;
+}
 
-}
-.form-entry {
-  display: table-cell;
-  padding-left: 20px;
-  text-align: left;
-
-}
-.button {
-  color:white;
-  font-family: DIN-light;
-  font-size: 16px;
-  margin: 20px;
-  background-color: #384ad3;
-  padding: 8px 150px;
-}
-img {
+.userImage {
   border-radius: 50%;
+  border: solid white 2px;
+}
+
+.userImage:hover {
+  content: url("https://cdn1.iconfinder.com/data/icons/smallicons-controls/32/614322-up-512.png");
+}
+
+.deletebutton {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: left;
+}
+
+.deletebutton:hover {
+  background-color: #c74720;
+}
+@media screen and (max-width: 1000px) {
+  .square {
+    width:100%;
+    background-image: url("https://33k11k42p4gm11zrza2bhe9n-wpengine.netdna-ssl.com/wp-content/uploads/2019/08/Small-Groups-Website-Banner-background-Bars.png");
+    margin-left:auto;
+    margin-right:auto;
+    display: block;
+    background-size: contain;
+    background-position: center;
+
+  }
+
+  .profilePage {
+    padding: 20px;
+    font-family: DIN-Light;
+  }
+
+  .row-label, .row-field, .submitbutton {
+      width: 100%;
+      margin-top: 0;
+    }
+  .h3 {
+    text-indent: 20px;
+  }
+  .square > span {
+    position: relative;
+    left: 1%;
+    top:40%;
+    font-size: 25px;
+  }
+
 }

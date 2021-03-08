@@ -291,10 +291,12 @@ app.post('/users', (req, res) => {
     const fname = req.body.fname
     const lname = req.body.lname
     const comm_email = req.body.commEmail
-    db.query("UPDATE profile.profileinfo SET fname = ?, lname = ?, comm_email = ? WHERE username = ?", [fname,lname,comm_email,username], (err, result) =>{
-      if (err) throw err;
-      res.send(result);
-      });
+    const image = req.body.image
+    
+      db.query("UPDATE profile.profileinfo SET fname = ?, lname = ?, comm_email = ? WHERE username = ?", [fname,lname,comm_email,username], (err, result) =>{
+        if (err) throw err;
+        res.send(result);
+        });
   });
 
   app.post('/myposts',(req,res) => {

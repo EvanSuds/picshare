@@ -13,7 +13,7 @@ import { userInfo } from 'os';
 const specialCharacterRegx = /[ !@#$%^&*()_+\-=[\]{}'"\\|,./]/;
 const illegalCharacterRegx = /[<>;:?]/;
 const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-var Username, Fname, Lname, CommEmail, user, PostID,image = ""; // Variables which can be used to update users details
+var Username, Fname, Lname, CommEmail, user, PostID,Image = ""; // Variables which can be used to update users details
 
  //credintials for get, using axios
  Axios.defaults.withCredentials = true;
@@ -55,18 +55,18 @@ getUserInfo() {
             console.log("no response")
           }
         });
-        Axios.post('http://localhost:3001/myposts', {
-                  username: user
-              }).then((response) => {
-                console.log(response.data);
-                if(response){
-                  this.setState({
-                    usersPostArray: response.data,
-                  });
-                }else {
-                  console.log("no response")
-                }
-              });
+  Axios.post('http://localhost:3001/myposts', {
+          username: user
+      }).then((response) => {
+        console.log(response.data);
+        if(response){
+          this.setState({
+          usersPostArray: response.data,
+          });
+        } else {
+            console.log("no response")
+            }
+          });
 }
 
 componentDidMount() { // Runs after the first render
@@ -93,12 +93,12 @@ checkEmailValidity(e) { // check if email is valid
 
 handleSubmit(event) { // Handle POST
     event.preventDefault();
-
     Axios.post('/update', { //Send to backend express nodejs server
       username : Username,
       fname : Fname,
       lname : Lname,
-      commEmail : CommEmail
+      commEmail : CommEmail,
+      image: Image
     });
       this.getUserInfo();
       window.location.reload();
@@ -106,7 +106,7 @@ handleSubmit(event) { // Handle POST
 
 handleChange(event){
     const file = URL.createObjectURL(event.target.files[0]);
-    image = file;
+    Image = file;
     console.log(file);
 }
 
@@ -114,8 +114,8 @@ deleteImage(event) { // Handle POST
     event.preventDefault();
     var r = window.confirm("Are you sure you want to delete, this cannot be undone");
     if(r == true) {
-    console.log(PostID);
-    Axios.post('/deletepost', { //Send to backend express nodejs server
+      console.log(PostID);
+      Axios.post('/deletepost', { //Send to backend express nodejs server
       postid : PostID
     });
       this.getUserInfo();
@@ -138,15 +138,12 @@ return (
   <>{this.state.usersInfoArray.map((info, i)=> {
     Username = info.username
     return(
-
-    <div class ="blackBar">
+<div class = "profilePage">
          <div className="App">
                 <Navbar drawerClickedHandler={this.drawerToggleClick} />
                 {sideDrawer}
                 {backdrop}
         </div>
-    <br/>
-      <div class = "userInfo">
         <div class = "square">
           <span>
             <p>
@@ -162,64 +159,75 @@ return (
         </div>
       <h3>My Account</h3>
       <p>View and edit your personal info below</p>
-      <hr class="solid2"/>
       <p>Login Email: {info.login_Email}</p>
       <div class = "form">
       <form>
+
           <div class = "form-entry">
-            <label htmlFor="fname">First name:</label>
-            <br/>
-            <input type="text" id="fname" name="fname" autoComplete="new-password" defaultValue = {info.fname} size = "40" onChange={ (e) => {
-              Fname = e.target.value;
-            }}/>
+            <div class = "row-label">
+              <label htmlFor="fname">First name:</label>
+            </div>
+            <div class = "row-field">
+              <input type="text" id="fname" name="fname" autoComplete="new-password" defaultValue = {info.fname} onChange={ (e) => {
+                  Fname = e.target.value;
+                }}/>
+            </div>
           </div>
+
           <div class = "form-entry">
-            <label htmlFor="lname" id="fname">Last name:</label>
-            <br/>
-            <input type="text" id="lname" name="lname" autoComplete="new-password" defaultValue = {info.lname} size = "40" onChange={ (e) => {
-              Lname = e.target.value;
-            }}/>
-          </div>
+            <div class = "row-label">
+              <label htmlFor="lname">Last name:</label>
+            </div>
+            <div class = "row-field">
+              <input type="text" id="lname" name="lname" autoComplete="new-password" defaultValue = {info.lname} onChange={ (e) => {
+                  Lname = e.target.value;
+                }}/>
+              </div>
+            </div>
+
+          <div class = "form-entry">
+            <div class = "row-label">
+              <label htmlFor="email">Contact Email: </label>
+            </div>
+            <div class = "row-field">
+              <input type = "text" id="email" name="email" autoComplete="new-password" defaultValue = {info.comm_email}  onChange={ (e) => {
+                  CommEmail = e.target.value;
+                }}/>
+              </div>
+            </div>
           <br/>
-          <div class = "form-entry">
-            <label htmlFor="email">Contact Email: </label>
-            <br/>
-            <input type = "text" id="email" name="email" autoComplete="new-password" defaultValue = {info.comm_email} size = "100" onChange={ (e) => {
-              CommEmail = e.target.value;
-            }}/>
-          </div>
-            <br/>
-            <input type="submit" value="Update Info" class = "button" onClick={(e) => {
-              if(!(this.checkValidity(Fname) && this.checkValidity(Lname) && this.checkEmailValidity(CommEmail.toLowerCase)) || (!(Fname.length > 0) || !(Lname.length > 0) || !(CommEmail.length > 0))) {
-                alert("The fields must not be empty or contain illegal characters");
-              }
-              else {
-                alert("Successfully Updated");
-                this.handleSubmit(e);
-              }
-            }}/>
+            <div class = "form-entry">
+              <input type="submit" value="Update Info" class = "submitbutton" onClick={(e) => {
+                if(!(this.checkValidity(Fname) && this.checkValidity(Lname) && this.checkEmailValidity(CommEmail.toLowerCase)) || (!(Fname.length > 0) || !(Lname.length > 0) || !(CommEmail.length > 0))) {
+                  alert("The fields must not be empty or contain illegal characters");
+                }
+                else {
+                  alert("Successfully Updated");
+                  this.handleSubmit(e);
+                }
+              }}/>
+            </div>
       </form>
       </div>
-      </div>
-    </div>
+      <div>
+      <br/>
+        <h3> My Posts (Most recent first)</h3>
+
+        {this.state.usersPostArray.map(post => <div key = {post}> <img src = {post.Image} width = "200" height = "200" px></img> <h3>{post.PostDes}</h3> <br/>
+      <input type="submit" value="Delete Image" class = "deletebutton" onClick={(e) => {
+          PostID = post.PostID;
+          this.deleteImage(e);
+        }}/>
+      <br/>
+      <hr class="solid2"/>
+      </div>)}
+        <footer>
+          © 2021 by Picshare
+        </footer>
+        </div>
+</div>
     )
   })}
-  <div class = "userInfo">
-  <hr class="solid2"/>
-  <h3> My Posts (Most recent first)</h3>
-
-  {this.state.usersPostArray.map(post => <div key = {post}>   <hr class="solid2"/> <img src = {post.Image} width = "200" height = "200" px></img> <h3>{post.PostDes}</h3>
-<input type="submit" value="Delete Image" class = "deletebutton" onClick={(e) => {
-    PostID = post.PostID;
-    this.deleteImage(e);
-  }}/>
-</div>)}
-<hr class="solid2"/>
-  <footer>
-    © 2021 by Picshare
-  </footer>
-  </div>
-
   </>
    );
   }

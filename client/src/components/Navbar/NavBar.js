@@ -1,8 +1,8 @@
 import React from 'react';
 import {BrowserRouter , Switch, Route, Link, Redirect, withRouter, useHistory }from "react-router-dom";
 import './NavBar.css';
-
 import SideDrawerButton from '../SideDrawer/SideDrawerButton';
+import Axios from 'axios';
 
 const navbar = props => (
     <header className="navbar">
@@ -15,13 +15,13 @@ const navbar = props => (
             <div className="navbarItems">
                 <ul>
                     <li><Link to="/allNewsFeed">News Feed</Link></li>
-                    <li><a href=''>Explore</a></li>
-                    <li><a href=''>Upload</a></li>
+                    <li><Link to="/Explore">Explore</Link></li>
+                    <li><Link to="/allNewsFeed">Upload</Link></li>
                     <div class="dropdown">
-                        <button class="dropbtn">John Doe</button>
+                        <button class="dropbtn"></button>
                         <div class="dropdown-content">
-                            <a href="#">My Account</a>
-                            <a href="#">Settings</a>
+                            <a href="/profile">My Account</a>
+                            <a href="/">Logout</a>
                             <a href="#">Privacy Policy</a>
                         </div>
                     </div>
@@ -31,5 +31,7 @@ const navbar = props => (
 
     </header>
 );
+
+
 
 export default navbar;
