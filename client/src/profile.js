@@ -13,7 +13,7 @@ import { userInfo } from 'os';
 const specialCharacterRegx = /[ !@#$%^&*()_+\-=[\]{}'"\\|,./]/;
 const illegalCharacterRegx = /[<>;:?]/;
 const emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-var Username, Fname, Lname, CommEmail, user, PostID,Image = ""; // Variables which can be used to update users details
+var Username, Fname, Lname, CommEmail, user, PostID, userId = ""; // Variables which can be used to update users details
 
  //credintials for get, using axios
  Axios.defaults.withCredentials = true;
@@ -23,8 +23,11 @@ constructor(props) {
   this.state = {
     usersPostArray: [], // An array to store the users post information
     usersInfoArray: [], // An array to store the users information when fetched from the db
+    keywords: '',
+    users: [],
+    followedUserIds: [],
+    fans: []
   };
-  this.handleChange = this.handleChange.bind(this);
 }
 
 state = {
@@ -73,7 +76,10 @@ componentDidMount() { // Runs after the first render
     Axios.get('http://localhost:3001/checklogin').then((response)=> {
     if(response.data.loggedIn === true){
       user = response.data.user[0].username
-      this.getUserInfo(); // Fetch the users info and posts by calling function
+      userId = response.data.user[0].userID
+      this.getUserInfo();
+      this.getFollowedUsers();
+      this.getFans(); // Fetch the users info and posts by calling function
     }
     });
 }
@@ -98,17 +104,114 @@ handleSubmit(event) { // Handle POST
       fname : Fname,
       lname : Lname,
       commEmail : CommEmail,
-      image: Image
     });
       this.getUserInfo();
       window.location.reload();
 }
 
-handleChange(event){
-    const file = URL.createObjectURL(event.target.files[0]);
-    Image = file;
-    console.log(file);
-}
+handleUploadImage (e, info, i, isAvatar=true) {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.style.display = 'none';
+        input.accept = 'image/*';
+        document.body.appendChild(input);
+        input.click();
+
+        const self = this;
+
+        input.onchange = function () {
+            const image = input.files[0];
+            const reader = new FileReader();
+            reader.onload = function () {
+                const base64 = reader.result;
+                Axios.post('http://localhost:3001/' + (isAvatar ? 'updateAvatar' : 'updateBackgroundImage') + '?profileID=' + info.profileID, {
+                    img: base64
+                }, {
+                    'Content-Type': 'application/json'
+                }).then((response) => {
+                    if (response) {
+                        const array = self.state.usersInfoArray;
+                        if (isAvatar) {
+                            info.Image = base64;
+                        } else {
+                            info.BackgroundImage = base64;
+                        }
+                        array[i] = info;
+                        self.setState({
+                            usersInfoArray: array
+                        });
+                    } else {
+                        console.log("no response")
+                    }
+                });
+            };
+            reader.readAsDataURL(image);
+            input.onchange = null;
+            input.remove();
+        }
+    }
+
+    getFollowedUsers () {
+            Axios.get('http://localhost:3001/getFollowedUsers?userId=' + userId).then((response) => {
+                if (response) {
+                    this.setState({
+                        followedUserIds: response.data.map((user) => {
+                            return user.UserID
+                        })
+                    });
+                } else {
+                    console.log('no response');
+                }
+            });
+        }
+
+        getFans () {
+            Axios.get('http://localhost:3001/getFans?userId=' + userId).then((response) => {
+                if (response) {
+                    this.setState({
+                        fans: response.data
+                    });
+                } else {
+                    console.log('no response');
+                }
+            });
+        }
+
+        searchUsers (keywords) {
+        const self = this;
+        Axios.post('http://localhost:3001/search_users', {
+            name: keywords
+        }).then((response) => {
+            if (response) {
+                self.setState({
+                    users: response.data
+                });
+            } else {
+                console.log('no response');
+            }
+        });
+    }
+
+    follow (id) {
+        const self = this;
+        console.log(userId); // TO FIX
+        console.log(id);
+        Axios.post('http://localhost:3001/follow', {
+            userId: userId,
+            followUserId: id
+        }).then((response) => {
+            if (response) {
+                const ids = this.state.followedUserIds;
+                ids.push(id);
+                self.setState({
+                    followedUserIds: ids
+                });
+                self.getFans();
+            } else {
+                console.log('no response');
+            }
+        });
+    }
 
 deleteImage(event) { // Handle POST
     event.preventDefault();
@@ -138,27 +241,79 @@ return (
   <>{this.state.usersInfoArray.map((info, i)=> {
     Username = info.username
     return(
-<div class = "profilePage">
+<div class = "profilePage" key = {i}>
          <div className="App">
                 <Navbar drawerClickedHandler={this.drawerToggleClick} />
                 {sideDrawer}
                 {backdrop}
         </div>
-        <div class = "square">
+        <br/>
+        <div className = "square"
+        title = "click to upload background image"
+        style={{
+          cursor: 'pointer',
+          height: '300px',
+          backgroundSize: '100% 100%',
+          backgroundImage: info.backgroundImage ? `url(${info.backgroundImage})` : 'url("https://tomaszjanickiphoto.co.uk/wp-content/gallery/scotland/DSC_8286.jpg")'
+          }}
+          onClick={(e) => {
+              this.handleUploadImage(e, info, i, false);
+          }}
+        >
           <span>
             <p>
-              <label htmlFor = "fileUpload">
-              <img class = "userImage" id="userImage" src = {info.image} alt = "Loading..." width = "100" height = "100"/>
-              </label>
-              <input hidden id="fileUpload" type="file" accept="image/*" onChange={ (e) => {
-                  this.handleChange(e);
-              }}/>
+              <img
+                src = {info.image}
+                alt = "Loading..."
+                style={{ width: '80px', height: '80px', display: 'inline-block', margin: '10px', fontSize: '14px', lineHeight: '80px', textAlign: 'center', cursor: 'pointer' }}
+                onClick={e => {
+                  e.stopPropagation();
+                  this.handleUploadImage(e, info, i, true);
+                }}
+                />
+                <span>
+                    I have
+                    <span style={{ color: 'red', fontWeight: 600, margin: '0 10px' }}>{this.state.fans.length}</span>
+                    fans
+                </span>
               {info.fname} {info.lname}
             </p>
           </span>
         </div>
       <h3>My Account</h3>
       <p>View and edit your personal info below</p>
+        <div className="searcher">
+          <input defaultValue={this.state.keywords} placeholder="search other users" onChange={(e) => {
+            this.setState({
+              keywords: e.target.value
+            });
+          }}/>
+          <button onClick={(e) => {
+            if (this.state.keywords.trim()) {
+              this.searchUsers(this.state.keywords.trim());
+            }
+            }}>search users</button>
+          </div>
+          <div className="user-list">
+          {
+            this.state.users.map((user) => {
+            return (
+            <div className="user">
+            <span>{user.Username}</span>
+            {
+              this.state.followedUserIds.includes(user.UserID)
+              ?
+              <button className="disabled">Followed</button>
+              :
+              <button onClick={(e) => {
+                this.follow(user.userID);
+              }}>Follow</button>
+              }
+              </div>
+            );
+          })
+        }
+      </div>
       <p>Login Email: {info.login_Email}</p>
       <div class = "form">
       <form>

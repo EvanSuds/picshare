@@ -52,7 +52,7 @@ margin-top: 4rem;
   background-image: url("https://tomaszjanickiphoto.co.uk/wp-content/gallery/scotland/DSC_8286.jpg");
   text-indent: 0px;
   color: white;
-  width: 1050px;
+  width: 100%;
   height: 200px;
 }
 
@@ -161,9 +161,7 @@ label {
       width: 100%;
       margin-top: 0;
     }
-  .h3 {
-    text-indent: 20px;
-  }
+
   .square > span {
     position: relative;
     left: 1%;

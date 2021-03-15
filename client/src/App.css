@@ -141,6 +141,7 @@
   display: inline-block;
   font-size: 12px;
   font-family: DIN-Light;
+  cursor:pointer;
 }
 
 .button2:hover {

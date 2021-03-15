@@ -10,7 +10,9 @@ const session = require("express-session");
 const app = express()
 
 
-app.use(express.json());
+app.use(express.json({
+  limit: '10mb'
+}));
 
 {/*connection to front end*/}
 app.use(cors({
@@ -292,12 +294,37 @@ app.post('/users', (req, res) => {
     const lname = req.body.lname
     const comm_email = req.body.commEmail
     const image = req.body.image
-    
+
       db.query("UPDATE profile.profileinfo SET fname = ?, lname = ?, comm_email = ? WHERE username = ?", [fname,lname,comm_email,username], (err, result) =>{
         if (err) throw err;
         res.send(result);
         });
   });
+
+  app.post('/updateAvatar', (req, res) => {
+      const img = req.body.img;
+      const id = req.query.profileID;
+      db.query('update profile.profileinfo set image = ? where profileID = ?',
+          [img, id],
+          (err, result) => {
+              if (err) throw err;
+              res.send(result);
+          }
+      );
+  });
+
+  app.post('/updateBackgroundImage', (req, res) => {
+      const img = req.body.img;
+      const id = req.query.profileID;
+      db.query('update profile.profileinfo set backgroundImage = ? where profileID = ?',
+          [img, id],
+          (err, result) => {
+              if (err) throw err;
+              res.send(result);
+          }
+      );
+  });
+
 
   app.post('/myposts',(req,res) => {
     const username = req.body.username
@@ -315,6 +342,51 @@ app.post('/users', (req, res) => {
       res.send(result);
     });
   });
+
+  app.get('/getFollowedUsers', (req, res) => {
+    const id = req.query.userId;
+    db.query('select * from profile.follows where UserID = ?',
+        [id],
+        (err, result) => {
+            if (err) throw err;
+            res.send(result);
+        }
+    );
+});
+
+app.get('/getFans', (req, res) => {
+    const id = req.query.userId;
+    db.query('select * from profile.follows where FollowUserID = ?',
+        [id],
+        (err, result) => {
+            if (err) throw err;
+            res.send(result);
+        }
+    );
+});
+
+app.post('/search_users', (req, res) => {
+    const name = req.body.name;
+    db.query('select * from profile.userdetails where username like ?',
+        ['%' + name + '%'],
+        (err, result) => {
+            if (err) throw err;
+            res.send(result);
+        }
+    );
+});
+
+app.post('/follow', (req, res) => {
+    const userId = req.body.userId;
+    const followUserId = req.body.followUserId;
+    db.query('insert into profile.follows (UserID, FollowUserID) VALUES (?, ?)',
+        [userId, followUserId],
+        (err, result) => {
+            if (err) throw err;
+            res.send(result);
+        }
+    );
+});
 
 {/*log server is running*/}
 app.listen(3001, () =>{
