@@ -267,7 +267,7 @@ return (
             <p>
               <img
                 src = {info.image}
-                alt = "Loading..."
+                alt = 'No Image set'
                 style={{ width: '80px', height: '80px', display: 'inline-block', margin: '10px', fontSize: '14px', lineHeight: '80px', textAlign: 'center', cursor: 'pointer' }}
                 onClick={e => {
                   e.stopPropagation();
@@ -279,7 +279,9 @@ return (
                 <br/>
                     I have
                     <span style={{ color: 'red', fontWeight: 600, margin: '0 10px' }}>{this.state.fans.length}</span>
-                    followers
+                    followers and
+                    <span style={{ color: 'red', fontWeight: 600, margin: '0 10px' }}>{info.points}</span>
+                    points
                 </span>
 
             </p>

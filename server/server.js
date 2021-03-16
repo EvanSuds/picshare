@@ -328,7 +328,7 @@ app.post('/users', (req, res) => {
 
   app.post('/myposts',(req,res) => {
     const username = req.body.username
-    db.query("SELECT * FROM profile.posts WHERE Username=? ORDER BY PostID DESC", [username], (err, result) =>{
+    db.query("SELECT * FROM profile.posts WHERE Username=? ORDER BY PostID DESC LIMIT 10", [username], (err, result) =>{
       if (err) throw err;
       res.send(result);
       });
@@ -369,7 +369,7 @@ app.get('/getFans', (req, res) => {
 app.post('/search_users', (req, res) => {
     const name = req.body.name;
     const userID = req.body.userid;
-    db.query('select * from profile.userdetails WHERE username like ? AND userID NOT IN (?) ',
+    db.query('select * from profile.userdetails WHERE username like ? AND userID NOT IN (?) LIMIT 10 ',
         ['%' + name + '%', + userID],
         (err, result) => {
             if (err) throw err;
