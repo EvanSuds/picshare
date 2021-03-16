@@ -180,7 +180,8 @@ handleUploadImage (e, info, i, isAvatar=true) {
         searchUsers (keywords) {
         const self = this;
         Axios.post('http://localhost:3001/search_users', {
-            name: keywords
+            name: keywords,
+            userid : userId
         }).then((response) => {
             if (response) {
                 self.setState({
@@ -194,8 +195,9 @@ handleUploadImage (e, info, i, isAvatar=true) {
 
     follow (id) {
         const self = this;
-        console.log(userId); // TO FIX
+        console.log(userId);
         console.log(id);
+        if(userId != id) {
         Axios.post('http://localhost:3001/follow', {
             userId: userId,
             followUserId: id
@@ -211,6 +213,8 @@ handleUploadImage (e, info, i, isAvatar=true) {
                 console.log('no response');
             }
         });
+      }
+
     }
 
 deleteImage(event) { // Handle POST
@@ -271,12 +275,14 @@ return (
                   this.handleUploadImage(e, info, i, true);
                 }}
                 />
+              {info.fname} {info.lname}
                 <span>
+                <br/>
                     I have
                     <span style={{ color: 'red', fontWeight: 600, margin: '0 10px' }}>{this.state.fans.length}</span>
-                    fans
+                    followers
                 </span>
-              {info.fname} {info.lname}
+
             </p>
           </span>
         </div>

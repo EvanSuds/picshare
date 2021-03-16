@@ -367,8 +367,9 @@ app.get('/getFans', (req, res) => {
 
 app.post('/search_users', (req, res) => {
     const name = req.body.name;
-    db.query('select * from profile.userdetails where username like ?',
-        ['%' + name + '%'],
+    const userID = req.body.userid;
+    db.query('select * from profile.userdetails WHERE username like ? AND userID NOT IN (?) ',
+        ['%' + name + '%', + userID],
         (err, result) => {
             if (err) throw err;
             res.send(result);
