@@ -349,6 +349,7 @@ app.post('/users', (req, res) => {
         [id],
         (err, result) => {
             if (err) throw err;
+            console.log(result);
             res.send(result);
         }
     );

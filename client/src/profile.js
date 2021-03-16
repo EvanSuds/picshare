@@ -46,7 +46,6 @@ backdropClick = () => {
 
 
 getUserInfo() {
-
   Axios.post('http://localhost:3001/users', {
             username: user
         }).then((response) => {
@@ -54,7 +53,7 @@ getUserInfo() {
             this.setState({
               usersInfoArray: response.data, // Store the information in the users info array
             });
-          }else {
+          } else {
             console.log("no response")
           }
         });
@@ -151,12 +150,13 @@ handleUploadImage (e, info, i, isAvatar=true) {
         }
     }
 
-    getFollowedUsers () {
+getFollowedUsers () {
             Axios.get('http://localhost:3001/getFollowedUsers?userId=' + userId).then((response) => {
                 if (response) {
                     this.setState({
                         followedUserIds: response.data.map((user) => {
-                            return user.UserID
+                          console.log(user.UserID);
+                          return user.UserID
                         })
                     });
                 } else {
@@ -191,9 +191,9 @@ handleUploadImage (e, info, i, isAvatar=true) {
                 console.log('no response');
             }
         });
-    }
+  }
 
-    follow (id) {
+follow (id) {
         const self = this;
         console.log(userId);
         console.log(id);
@@ -228,7 +228,6 @@ deleteImage(event) { // Handle POST
       this.getUserInfo();
       window.location.reload();
     }
-
 }
 
 render() {
@@ -305,9 +304,9 @@ return (
             this.state.users.map((user) => {
             return (
             <div className="user">
-            <span>{user.Username}</span>
+            <span>{user.username}   </span>
             {
-              this.state.followedUserIds.includes(user.UserID)
+              this.state.followedUserIds.includes(user.userID)
               ?
               <button className="disabled">Followed</button>
               :
