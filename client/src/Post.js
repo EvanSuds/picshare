@@ -14,12 +14,13 @@ import Axios from 'axios';
 
 var split = [];
 var add = true;
-var id = "";
+
 
 class Post extends Component {
     constructor(props) {
       super(props);
-      this.state = { description: props.description, key: props.key, file: props.file, tags : props.tags, user: props.user};
+
+      this.state = { description: props.description, key: props.key, file: props.file, tags : props.tags, user: props.user, id:0};
       console.log("Props file: " + props.file);
     }
 
@@ -34,57 +35,61 @@ class Post extends Component {
 
             }).then((response) => {
               if(response){
-                id = response.data.insertId
+                console.log(response)
+                this.setState({id : response.data.insertId});
+                this.parseTags();
+
+
               }else {
                 console.log("no response")
               }
-              
-    
+
+
             })
           add = false;
-      
+
     }
 
     postPostTags() {
       console.log("intags")
-      Axios.post('http://localhost:3001/tags', {
-                tags: split,
-                id: id
-               
+      console.log(this.state.id)
+      if(this.state.id != 0){
+        Axios.post('http://localhost:3001/tags', {
+                  tags: split,
+                  id: this.state.id
 
-            }).then((response) => {
-              if(response){
-                
-              }else {
-                console.log("no response")
-              }
-              
-    
-            })
-      
+
+              }).then((response) => {
+                if(response){
+
+                }else {
+                  console.log("no response")
+                }
+
+
+              })
+        }
     }
 
     parseTags(){
       split = this.state.tags.split(" ")
-     
+
       console.log(split)
-        
       this.postPostTags();
+
     }
 
     componentDidMount() { // Runs after the first render
       console.log("in component")
-      //if(add){
+
         this.postPostInfo();
-        this.parseTags();
-      //}
-          
-          
-          
-          
+
+
+
+
         
 
-      
+
     }
 
 
@@ -93,14 +98,14 @@ class Post extends Component {
 
 
 
-    
+
     render() {
       return (
-      
+
         <ListItem key={this.state.key}>
             <Card>
                 <CardContent>
-                <img src={this.state.file} />
+                <img className="postimg" src={this.state.file} />
                 <Typography>
                     User
                 </Typography>
@@ -113,7 +118,7 @@ class Post extends Component {
                 </Typography>
                 </CardContent>
             </Card>
-                    
+
         </ListItem>
       );
     }

@@ -43,7 +43,6 @@ const db = mysql.createConnection({
     host: "localhost",
     password: "f29so",
     database: "profile"
-
 });
 
 db.connect((err) => {
@@ -63,7 +62,6 @@ app.post('/register', (req, res)=>{
     bcrypt.hash(password, saltRounds, (err, hash) => {
         if(err !== null){
             console.log(err);
-
         }
         if(email === ""){
             db.query("INSERT INTO profile.userDetails (username, password) VALUES (?,?)",
@@ -90,16 +88,9 @@ app.post('/register', (req, res)=>{
                 else{
                     req.session.user = result;
                 }
-
-
-
         });
         }
-
-
-
     })
-
 });
 
 {/*checked if logged in method*/}
@@ -114,16 +105,14 @@ app.get('/checklogin', (req, res) => {
 
 app.post('/updateTable', (req, res) =>{
     db.query("SELECT * FROM profile.userDetails", (err, result) => {
-        //console.log(result)
         console.log("update err" + err)
         res.send(result);
-
     })
 })
 
 
 app.post('/refresh', (req, res) =>{
-    db.query("SELECT * FROM profile.userdetails ORDER BY userID DESC LIMIT 1", (err, result) => {
+    db.query("SELECT * FROM profile.userDetails ORDER BY userID DESC LIMIT 1", (err, result) => {
         console.log(result)
         console.log("refresh err" + err)
         res.send(result);
@@ -136,7 +125,7 @@ app.post('/login', (req, res) => {
     const usernameEmail = req.body.usernameEmail
     const password = req.body.password
 
-    db.query("SELECT * FROM profile.userdetails WHERE username =? OR email =?", [usernameEmail, usernameEmail],
+    db.query("SELECT * FROM profile.userDetails WHERE username =? OR email =?", [usernameEmail, usernameEmail],
     (err, result)=>{
         if(err) {
             console.log(err);
@@ -172,24 +161,14 @@ app.post('/setDetails', (req, res) => {
     const username = req.body.username
 
 
-    db.query("INSERT INTO profile.profileinfo (username, fname, lname, description) VALUES (?,?,?,?)", [username, firstName, secondName, description],
+    db.query("INSERT INTO profile.profile (username, fname, lname, description) VALUES (?,?,?,?)", [username, firstName, secondName, description],
     (err, result)=>{
         if(err) {
             console.log("setdetails error " +err);
         }
-        //res.send(result);
-
-
         res.send({message: "changed details"})
-
-
-
         console.log("details error " + err)
         console.log("details result " + result)
-        //res.send({message: "This user doesnt exist"})
-
-
-
     });
 });
 
@@ -204,19 +183,9 @@ app.post('/posts', (req, res) => {
         if(err) {
             console.log("setdetails error " +err);
         }
-        //res.send(result);
-
-
         res.send(result)
-
-
-
         console.log("posts error " + err)
         console.log(result)
-        //res.send({message: "This user doesnt exist"})
-
-
-
     });
 });
 
@@ -240,9 +209,6 @@ app.post('/tags', (req, res) => {
                 }
                 console.log(result)
                 })
-
-
-
             console.log(result)
         })
     )
@@ -260,19 +226,8 @@ app.post('/setInterest', (req, res) => {
             if(err) {
                 console.log("setinterest error " +err);
             }
-            //res.send(result);
-
-
-            //res.send({message: "changed interest"})
-
-
-
             console.log("interest error " + err)
             console.log("interest result " + result)
-            //res.send({message: "This user doesnt exist"})
-
-
-
         });
     }
 });
@@ -280,7 +235,7 @@ app.post('/setInterest', (req, res) => {
 
 app.post('/users', (req, res) => {
     const username = req.body.username
-    db.query("SELECT * FROM profile.profileinfo WHERE username =?;", [username], (err, results) => {
+    db.query("SELECT * FROM profile.profile WHERE username =?;", [username], (err, results) => {
       if(err){
           console.log("profile err " + err)
       }
@@ -295,7 +250,7 @@ app.post('/users', (req, res) => {
     const comm_email = req.body.commEmail
     const image = req.body.image
 
-      db.query("UPDATE profile.profileinfo SET fname = ?, lname = ?, comm_email = ? WHERE username = ?", [fname,lname,comm_email,username], (err, result) =>{
+      db.query("UPDATE profile.profile SET fname = ?, lname = ?, comm_email = ? WHERE username = ?", [fname,lname,comm_email,username], (err, result) =>{
         if (err) throw err;
         res.send(result);
         });
@@ -304,7 +259,7 @@ app.post('/users', (req, res) => {
   app.post('/updateAvatar', (req, res) => {
       const img = req.body.img;
       const id = req.query.profileID;
-      db.query('update profile.profileinfo set image = ? where profileID = ?',
+      db.query('update profile.profile set image = ? where profileID = ?',
           [img, id],
           (err, result) => {
               if (err) throw err;
@@ -316,7 +271,7 @@ app.post('/users', (req, res) => {
   app.post('/updateBackgroundImage', (req, res) => {
       const img = req.body.img;
       const id = req.query.profileID;
-      db.query('update profile.profileinfo set backgroundImage = ? where profileID = ?',
+      db.query('update profile.profile set backgroundImage = ? where profileID = ?',
           [img, id],
           (err, result) => {
               if (err) throw err;
