@@ -144,6 +144,7 @@ function RegiLanding() {
         console.log(response)
         if(typeof response.data != 'undefined'){
             for(var i = 0; i < response.data.length; i++){
+				console.log(response);
                 setInterestList(interests => [...interests,response.data[i].InterestsName])
             }
         }
