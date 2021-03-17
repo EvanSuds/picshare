@@ -23,7 +23,7 @@ app.use(express.json({
 
 {/*connection to front end*/}
 app.use(cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:5000"],
     methods: ["GET", "POST"],
     credentials: true
 
