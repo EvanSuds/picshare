@@ -66,7 +66,7 @@ function RegiLanding() {
     function checkAgreement() {
         if(hasAgreed){
             if(pickedInterests.length >= 3){
-                if(displayName != ""){
+                if(displayName !== ""){
                     //setisLoggedIn(true);
                     console.log(setisLoggedIn);
                     setdetails();
