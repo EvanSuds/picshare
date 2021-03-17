@@ -201,7 +201,7 @@ const update = () => {
     setisLoggedIn(false);
   }else{
     //console.log("this is the login " + response);
-    redirect("/regiLanding")
+    redirect("/regiLanding");
   }
 
 });

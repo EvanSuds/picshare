@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter , Switch, Route, Link, Redirect, withRouter, useHistory }from "react-router-dom";
 import './NavBar.css';
-
+import Axios from 'axios';
 import SideDrawerButton from '../SideDrawer/SideDrawerButton';
 
 const navbar = props => (
@@ -20,7 +20,7 @@ const navbar = props => (
                     <div class="dropdown">
                         <button class="dropbtn"><Link to="/profile">John Doe</Link></button>
                         <div class="dropdown-content">
-                            <a href="#">My Account</a>
+                            <a href="/profile">My Account</a>
                             <a href="#">Settings</a>
                             <a href="#">Privacy Policy</a>
                         </div>
@@ -31,5 +31,7 @@ const navbar = props => (
 
     </header>
 );
+
+
 
 export default navbar;
