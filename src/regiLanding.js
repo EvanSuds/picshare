@@ -33,6 +33,7 @@ function RegiLanding() {
       };
 
     const filteredInterest =
+		console.log(interest);
         interests.filter(interest => {
         return interest.toLowerCase().includes(searchTerm);
     })
@@ -142,7 +143,7 @@ function RegiLanding() {
     const initInterests = () => {
         setInterestList([]);
         console.log(response)
-        if(typeof response.data !== 'undefined'){
+        if(typeof response.data != 'undefined'){
             for(var i = 0; i < response.data.length; i++){
                 setInterestList(interests => [...interests,response.data[i].InterestsName])
             }

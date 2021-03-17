@@ -11,16 +11,6 @@ const publicPath = path.join(__dirname, '..', 'public');
 const port = process.env.PORT || 3001;
 const app = express()
 
-app.use(express.static(publicPath));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(publicPath, 'index.html'));
-});
-
-app.use(express.json({
-  limit: '10mb'
-}));
-
 {/*connection to front end*/}
 app.use(cors({
     origin: ["https://desolate-tor-14214.herokuapp.com"],
@@ -28,6 +18,15 @@ app.use(cors({
     credentials: true
 
 }));
+
+app.use(express.static(publicPath));
+
+
+
+app.use(express.json({
+  limit: '10mb'
+}));
+
 {/*use cookie parser*/}
 app.use(cookieParser());
 {/*use body parser*/}
@@ -101,11 +100,13 @@ app.post('/register', (req, res)=>{
 });
 
 {/*checked if logged in method*/}
-app.get('/checklogin', cors(),(req, res) => {
+app.get('/checklogin',(req, res) => {
     if(req.session.user){
+		res.header('Access-Control-Allow-Origin', req.headers.origin);
         res.send({loggedIn: true, user: req.session.user})
     }
     else {
+		res.header('Access-Control-Allow-Origin', req.headers.origin);
         res.send({loggedIn: false})
     }
 })
@@ -237,6 +238,29 @@ app.post('/setInterest', (req, res) => {
             console.log("interest result " + result)
         });
     }
+});
+
+app.get('/getInterest', (req, res) => {
+    
+        db.query("SELECT interestName FROM profile.interests",
+        (err, result)=>{
+            if(err) {
+                console.log("getinterest error " +err);
+            }
+            res.send(result);
+                        
+              
+            //res.send({message: "changed interest"})
+            
+            
+        
+            console.log("getinterest error " + err)
+            console.log("getinterest result " + result)
+            //res.send({message: "This user doesnt exist"})
+            
+            
+
+        });
 });
 
 
