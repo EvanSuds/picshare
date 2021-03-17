@@ -23,7 +23,7 @@ app.use(express.json({
 
 {/*connection to front end*/}
 app.use(cors({
-    origin: ["http://localhost:5000"],
+    origin: ["https://desolate-tor-14214.herokuapp.com/"],
     methods: ["GET", "POST"],
     credentials: true
 
@@ -353,6 +353,6 @@ app.post('/follow', (req, res) => {
 });
 
 {/*log server is running*/}
-app.listen(port, () =>{
-    console.log("Running server")
+const server = app.listen(port, () =>{
+    console.log("Running server on port %s ", server.address().port)
 })
