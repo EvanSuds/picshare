@@ -33,7 +33,6 @@ function RegiLanding() {
       };
 
     const filteredInterest =
-		console.log(interest);
         interests.filter(interest => {
         return interest.toLowerCase().includes(searchTerm);
     })
