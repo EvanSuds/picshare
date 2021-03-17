@@ -23,7 +23,7 @@ app.use(express.json({
 
 {/*connection to front end*/}
 app.use(cors({
-    origin: ["https://desolate-tor-14214.herokuapp.com/"],
+    origin: ["https://desolate-tor-14214.herokuapp.com"],
     methods: ["GET", "POST"],
     credentials: true
 
@@ -101,7 +101,7 @@ app.post('/register', (req, res)=>{
 });
 
 {/*checked if logged in method*/}
-app.get('/checklogin', (req, res) => {
+app.get('/checklogin', cors(),(req, res) => {
     if(req.session.user){
         res.send({loggedIn: true, user: req.session.user})
     }
