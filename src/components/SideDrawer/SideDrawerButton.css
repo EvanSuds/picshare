@@ -1,0 +1,38 @@
+@import url(//db.onlinewebfonts.com/c/9ae5e19516bc6428f1327ff3311b2617?family=DINNextW01-Light);
+.buttonToggle{
+    display: flex;
+    flex-direction:column;
+    justify-content: space-around;
+    height:0px;
+    width: 0px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding:0 0 0 1rem;
+    box-sizing: border-box;
+}
+
+.buttonToggle {
+    outline:none;
+}
+
+.buttonLine{
+    width:0px;
+    height: 0px;
+    background:black;
+}
+
+@media screen and (max-width: 1000px) {
+    .buttonToggle {
+
+        height: 30px;
+        width: 30px;
+
+    }
+
+
+    .buttonLine {
+        width: 30px;
+        height: 3px;
+    }
+}

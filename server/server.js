@@ -6,9 +6,16 @@ const saltRounds = 10;
 const bodyParser =  require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-
+const path = require('path');
+const publicPath = path.join(__dirname, '..', 'public');
+const port = process.env.PORT || 3001;
 const app = express()
 
+app.use(express.static(publicPath));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(publicPath, 'index.html'));
+});
 
 app.use(express.json({
   limit: '10mb'
@@ -346,6 +353,6 @@ app.post('/follow', (req, res) => {
 });
 
 {/*log server is running*/}
-app.listen(3001, () =>{
+app.listen(port, () =>{
     console.log("Running server")
 })
